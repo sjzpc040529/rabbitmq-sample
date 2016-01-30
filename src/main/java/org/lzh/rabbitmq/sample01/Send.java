@@ -8,6 +8,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * 连接到RabbitMQ（此时服务需要启动），发送一条数据，然后退出。
+ * 发送端，即生产者
  */
 public class Send
 {
@@ -29,7 +30,7 @@ public class Send
         //指定一个队列
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         //发送的消息
-        String message = "hello world!";
+        String message = "hello world2!";
         //往队列中发出一条消息
         channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
         System.out.println(" [x] Sent '" + message + "'");
