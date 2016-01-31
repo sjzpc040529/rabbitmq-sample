@@ -16,7 +16,7 @@ public class Send
     private final static String QUEUE_NAME = "hello";
     private final  static String MQ_HOST="127.0.0.1";
 
-    public static void main(String[] argv) throws java.io.IOException, TimeoutException {
+    public static void main(String[] argv) throws java.io.IOException, TimeoutException, InterruptedException {
         /**
          * 创建连接连接到MabbitMQ
          */
@@ -31,9 +31,14 @@ public class Send
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         //发送的消息
         String message = "hello world2!";
-        //往队列中发出一条消息
-        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-        System.out.println(" [x] Sent '" + message + "'");
+        for (int i=0 ;i<100;i++){
+            message="this is message==>"+i;
+            //往队列中发出一条消息
+            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+            System.out.println(" [x] Sent '" + message + "'");
+            Thread.sleep(1000L);
+        }
+
         //关闭频道和连接
         channel.close();
         connection.close();
