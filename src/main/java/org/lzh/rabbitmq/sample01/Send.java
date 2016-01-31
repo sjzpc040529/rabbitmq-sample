@@ -7,39 +7,39 @@ import com.rabbitmq.client.ConnectionFactory;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Á¬½Óµ½RabbitMQ£¨´ËÊ±·şÎñĞèÒªÆô¶¯£©£¬·¢ËÍÒ»ÌõÊı¾İ£¬È»ºóÍË³ö¡£
- * ·¢ËÍ¶Ë£¬¼´Éú²úÕß
+ * è¿æ¥åˆ°RabbitMQï¼ˆæ­¤æ—¶æœåŠ¡éœ€è¦å¯åŠ¨ï¼‰ï¼Œå‘é€ä¸€æ¡æ•°æ®ï¼Œç„¶åé€€å‡ºã€‚
+ * å‘é€ç«¯ï¼Œå³ç”Ÿäº§è€…
  */
 public class Send
 {
-    //¶ÓÁĞÃû³Æ
+    //é˜Ÿåˆ—åç§°
     private final static String QUEUE_NAME = "hello";
     private final  static String MQ_HOST="127.0.0.1";
 
     public static void main(String[] argv) throws java.io.IOException, TimeoutException, InterruptedException {
         /**
-         * ´´½¨Á¬½ÓÁ¬½Óµ½MabbitMQ
+         * åˆ›å»ºè¿æ¥è¿æ¥åˆ°MabbitMQ
          */
         ConnectionFactory factory = new ConnectionFactory();
-        //ÉèÖÃMabbitMQËùÔÚÖ÷»úip»òÕßÖ÷»úÃû
+        //è®¾ç½®MabbitMQæ‰€åœ¨ä¸»æœºipæˆ–è€…ä¸»æœºå
         factory.setHost(MQ_HOST);
-        //´´½¨Ò»¸öÁ¬½Ó
+        //åˆ›å»ºä¸€ä¸ªè¿æ¥
         Connection connection = factory.newConnection();
-        //´´½¨Ò»¸öÆµµÀ
+        //åˆ›å»ºä¸€ä¸ªé¢‘é“
         Channel channel = connection.createChannel();
-        //Ö¸¶¨Ò»¸ö¶ÓÁĞ
+        //æŒ‡å®šä¸€ä¸ªé˜Ÿåˆ—
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        //·¢ËÍµÄÏûÏ¢
+        //å‘é€çš„æ¶ˆæ¯
         String message = "hello world2!";
         for (int i=0 ;i<100;i++){
             message="this is message==>"+i;
-            //Íù¶ÓÁĞÖĞ·¢³öÒ»ÌõÏûÏ¢
+            //å¾€é˜Ÿåˆ—ä¸­å‘å‡ºä¸€æ¡æ¶ˆæ¯
             channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
             System.out.println(" [x] Sent '" + message + "'");
             Thread.sleep(1000L);
         }
 
-        //¹Ø±ÕÆµµÀºÍÁ¬½Ó
+        //å…³é—­é¢‘é“å’Œè¿æ¥
         channel.close();
         connection.close();
     }

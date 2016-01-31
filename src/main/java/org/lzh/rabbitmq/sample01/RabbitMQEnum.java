@@ -3,13 +3,13 @@ package org.lzh.rabbitmq.sample01;
 import sun.org.mozilla.javascript.internal.annotations.JSSetter;
 
 /**
- * rabbit mq  配置信息
+ * rabbit mq  閰嶇疆淇℃伅
  */
 public enum  RabbitMQEnum {
-  RABBITMQ_QUEUE_NAME("hello","rabbitmq 队列名称"),
-    RABBITMQ_HOST("127.0.0.1","rabbitmq 域名地址");
+  RABBITMQ_QUEUE_NAME("hello","rabbitmq 闃熷垪鍚嶇О"),
+  RABBITMQ_HOST("127.0.0.1","rabbitmq 鍩熷悕鍦板潃");
   private String key ;
-    private String value ;
+  private String value ;
   private RabbitMQEnum(String key ,String value){
     this.key =  key ;
     this.value = value;
