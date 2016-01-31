@@ -39,13 +39,11 @@ public class Work {
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
-
             System.out.println(hashCode + " [x] Received '" + message + "'");
             doWork(message);
             System.out.println(hashCode + " [x] Done");
-            //发送应答  
+            //发送应答
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-
         }
 
     }
