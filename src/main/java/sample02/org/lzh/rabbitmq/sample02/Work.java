@@ -24,6 +24,7 @@ public class Work {
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
+
         //声明队列
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         System.out.println(hashCode
@@ -31,8 +32,10 @@ public class Work {
 
         QueueingConsumer consumer = new QueueingConsumer(channel);
 
+        boolean ack = false ; //打开应答机制，默认是关闭的
+
         // 指定消费队列
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        channel.basicConsume(QUEUE_NAME, ack, consumer);
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
@@ -40,6 +43,8 @@ public class Work {
             System.out.println(hashCode + " [x] Received '" + message + "'");
             doWork(message);
             System.out.println(hashCode + " [x] Done");
+            //发送应答  
+            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 
         }
 
