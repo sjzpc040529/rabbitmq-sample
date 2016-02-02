@@ -3,6 +3,7 @@ package org.lzh.rabbitmq.sample02;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.MessageProperties;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -21,8 +22,9 @@ public class NewTask {
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
+        boolean durable = true;//持久化消息队列
         //声明队列
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
         //发送10条消息，依次在消息后面附加1-10个点
         for (int i = 0; i < 10; i++) {
             String dots = "";
@@ -30,7 +32,8 @@ public class NewTask {
                 dots += ".";
             }
             String message = "helloworld" + dots + dots.length();
-            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+            //消息持久化MessageProperties.PERSISTENT_TEXT_PLAIN
+            channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
             System.out.println(" [x] Sent '" + message + "'");
         }
         //关闭频道和资源
