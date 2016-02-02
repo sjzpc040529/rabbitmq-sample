@@ -12,6 +12,7 @@ import java.util.concurrent.TimeoutException;
  * consumers 消费者 接收端
  */
 public class Work {
+    String str=null ;
     //队列名称
     private final static String QUEUE_NAME = "workqueue";
 
