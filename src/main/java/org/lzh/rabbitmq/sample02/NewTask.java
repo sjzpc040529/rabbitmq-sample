@@ -22,8 +22,9 @@ public class NewTask {
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
-        boolean durable = true;//持久化消息队列
+
         //声明队列
+        boolean durable = true;//队列持久化
         channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
         //发送10条消息，依次在消息后面附加1-10个点
         for (int i = 0; i < 10; i++) {
