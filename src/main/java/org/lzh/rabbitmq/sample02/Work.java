@@ -13,6 +13,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class Work {
     String str=null ;
+    String string2=null ;
     //队列名称
     private final static String QUEUE_NAME = "workqueue";
 
